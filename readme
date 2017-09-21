@@ -1,0 +1,24 @@
+1.Crk文件夹是从github中clone的，Crking是复制Crk，并且是当前实际工作目录。如果后续需要上传东西到github，可以复制到Crk，再上传。
+git clone git@github.com:mynote2015/Crk
+
+2.在Crking文件夹中，执行的setup.sh,该配置脚本是依据Grid32 Writting Cisco IOS Rootkit文档创建的，因此在运行dynamips-gdb-mod等程序时可能需要注意文件路径。包含qemu dynamips-gdb-mod debian_wheezy_ppc image等大部分内容。
+
+3.关于Mips环境搭建，debian_wheezy_mips在Grid32文档中找到下载链接。具体qemu运行方式也可以在下载页面中发现。
+
+4.ppc和mips运行，注意-nographic选项，可以不启动qemu图形界面，运行更稳定。
+qemu-system-ppc -m 768 -hda debian_wheezy_powerpc_standard.qcow2 -nographic
+qemu-system-mips -kernel vmlinux-3.2.0-4-4kc-malta -hda debian_wheezy_mips_standard.qcow2 -append "root=/dev/sda1 console=ttyS0" -nographic
+
+5.在Crking中，每个型号对应了一个文件夹，比如2600和3725等。其他IOS镜像可以通过torrent下载。
+
+6.dynamips-gdb-mod用法，可以参考Grid32文档
+../dynamips-gdb-mod/src/dynamips -Z 6666 -j -P 3725 -s 0:0:tap:tap1 -s 0:1:linux_eth:eth0 C3725-AD.BIN
+../dynamips-gdb-mod/src/dynamips -Z 6666 -j -P 2600 -t 2621 -s 0:0:tap:tap1 -s 0:1:linux_eth:eth0 C2600-BI.BIN
+
+7.路由模拟的虚拟网卡搭建，可以参考Grid32文档。注意网段设置不要和主机可访问实际网段冲突。否则从主机无法telnet模拟的路由。
+about tuntcl tap1, ifconfig tap 1 10.168.9.1/24, because the 192.168.9.1/24 is used by the host.
+
+8.qemu虚拟机示例
+qemu中host地址是10.0.2.2,Vm一般是10.0.2.15。
+开启qemu虚拟机后，运行ssh -R 33333:localhost:22 root@10.0.2.2，从host使用ssh 127.0.0.1 -p 33333登陆操作qemu虚拟机。
+
