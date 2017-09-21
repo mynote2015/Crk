@@ -1,0 +1,17 @@
+#qemu for real router debug
+#qemu connect usb device 
+#real router connect host from a usb interface
+
+1.git clone https://github.com/qemu/qemu
+2.cd qemu/hw/usb
+  add note"#"for line 41 43 44 45
+3.cd "qemu home directory"
+  mkdir build
+  cd build
+  ../configure
+  make
+  sudo make install
+
+4.qemu-system-ppc ... --monitor stdio -usb
+  info usbhost
+  device-add usb-host,hostbus="",hostaddr=""
