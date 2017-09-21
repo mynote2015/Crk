@@ -1,5 +1,7 @@
 1.Crk文件夹是从github中clone的，Crking是复制Crk，并且是当前实际工作目录。如果后续需要上传东西到github，可以复制到Crk，再上传。
 git clone git@github.com:mynote2015/Crk
+git commit -m ""
+git push origin master
 
 2.在Crking文件夹中，执行的setup.sh,该配置脚本是依据Grid32 Writting Cisco IOS Rootkit文档创建的，因此在运行dynamips-gdb-mod等程序时可能需要注意文件路径。包含qemu dynamips-gdb-mod debian_wheezy_ppc image等大部分内容。
 
