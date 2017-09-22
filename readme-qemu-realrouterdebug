@@ -8,10 +8,10 @@
 3.cd "qemu home directory"
   mkdir build
   cd build
-  ../configure
+  ../configure --enable-libusb --enable-usb-redir
   make
   sudo make install
 
 4.qemu-system-ppc ... --monitor stdio -usb
   info usbhost
-  device-add usb-host,hostbus="",hostaddr=""
+  device_add usb-host,hostbus="",hostaddr=""
