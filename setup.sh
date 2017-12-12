@@ -62,4 +62,4 @@ cd $CURRENTPATH
 # 7. Get Debian PowerPC Image
 
 wget https://people.debian.org/~aurel32/qemu/powerpc/debian_wheezy_powerpc_standard.qcow2
-
+wget https://people.debian.org/~aurel32/qemu/mips/debian_wheezy_mips_standard.qcow2
