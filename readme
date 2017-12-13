@@ -36,8 +36,10 @@ ifconfig tap1 up
 ifconfig tap1 192.168.9.1/24
 
 7.dynamips-gdb-mod用法，可以参考Grid32文档
+use <sudo> if in ubuntu, or u can't connect the host from the Router
 ../dynamips-gdb-mod/src/dynamips -Z 6666 -j -P 3725 -s 0:0:tap:tap1 -s 0:1:linux_eth:eth0 C3725-AD.BIN
 ../dynamips-gdb-mod/src/dynamips -Z 6666 -j -P 2600 -t 2621 -s 0:0:tap:tap1 -s 0:1:linux_eth:eth0 C2600-BI.BIN
+
 
 qume-guest:
 gdb -q
