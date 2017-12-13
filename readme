@@ -11,7 +11,7 @@ git push origin master
 http://grid32.com/bb095447484a76e5c74d10f604b716f8/cisco_ios_rootkits.pdf
 
 4.ppc和mips运行，注意-nographic选项，可以不启动qemu图形界面，运行更稳定。
-qemu-system-ppc -m 768 -hda debian_wheezy_powerpc_standard.qcow2 -nographic
+qemu-system-ppc -m 768 -hda debian_wheezy_powerpc_standard.qcow2 -nographic (root/root)
 qemu-system-mips -kernel vmlinux-3.2.0-4-4kc-malta -hda debian_wheezy_mips_standard.qcow2 -append "root=/dev/sda1 console=ttyS0" -nographic
 
 qemu-guest ssh tunnel setup:
