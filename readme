@@ -8,21 +8,51 @@ git push origin master
 2.在Crking文件夹中，执行的setup.sh,该配置脚本是依据Grid32 Writting Cisco IOS Rootkit文档创建的，因此在运行dynamips-gdb-mod等程序时可能需要注意文件路径。包含qemu dynamips-gdb-mod debian_wheezy_ppc image等大部分内容。
 
 3.关于Mips环境搭建，debian_wheezy_mips在Grid32文档中找到下载链接。具体qemu运行方式也可以在下载页面中发现。
+http://grid32.com/bb095447484a76e5c74d10f604b716f8/cisco_ios_rootkits.pdf
 
 4.ppc和mips运行，注意-nographic选项，可以不启动qemu图形界面，运行更稳定。
 qemu-system-ppc -m 768 -hda debian_wheezy_powerpc_standard.qcow2 -nographic
 qemu-system-mips -kernel vmlinux-3.2.0-4-4kc-malta -hda debian_wheezy_mips_standard.qcow2 -append "root=/dev/sda1 console=ttyS0" -nographic
 
-5.在Crking中，每个型号对应了一个文件夹，比如2600和3725等。其他IOS镜像可以通过torrent下载。
+qemu-guest ssh tunnel setup:
+qemu-guest# apt-get update
+qemu-guest# apt-get install openssh-server gcc gdb build-essential binutils-multiarch binutils
+qemu-guest# vi /etc/ssh/sshd_config
+qemu-guest# GatewayPorts yes
+qemu-guest# /etc/init.d/ssh restart
+qemu-guest# ssh -R 22222:localhost:22 <you>@<qemu-host>
 
-6.dynamips-gdb-mod用法，可以参考Grid32文档
-../dynamips-gdb-mod/src/dynamips -Z 6666 -j -P 3725 -s 0:0:tap:tap1 -s 0:1:linux_eth:eth0 C3725-AD.BIN
-../dynamips-gdb-mod/src/dynamips -Z 6666 -j -P 2600 -t 2621 -s 0:0:tap:tap1 -s 0:1:linux_eth:eth0 C2600-BI.BIN
-
-7.路由模拟的虚拟网卡搭建，可以参考Grid32文档。注意网段设置不要和主机可访问实际网段冲突。否则从主机无法telnet模拟的路由。
-about tuntcl tap1, ifconfig tap 1 10.168.9.1/24, because the 192.168.9.1/24 is used by the host.
-
-8.qemu虚拟机示例
+qemu虚拟机示例
 qemu中host地址是10.0.2.2,Vm一般是10.0.2.15。
 开启qemu虚拟机后，运行ssh -R 33333:localhost:22 root@10.0.2.2，从host使用ssh 127.0.0.1 -p 33333登陆操作qemu虚拟机。
 
+5.在Crking中，每个型号对应了一个文件夹，比如2600和3725等。其他IOS镜像可以通过torrent下载。
+
+6.路由模拟的虚拟网卡搭建，可以参考Grid32文档。注意网段设置不要和主机可访问实际网段冲突。否则从主机无法telnet模拟的路由。
+about tuntcl tap1, ifconfig tap 1 10.168.9.1/24, because the 192.168.9.1/24 is used by the host.
+tunctl setup:
+tunctl -t tap1
+ifconfig tap1 up
+ifconfig tap1 192.168.9.1/24
+
+7.dynamips-gdb-mod用法，可以参考Grid32文档
+../dynamips-gdb-mod/src/dynamips -Z 6666 -j -P 3725 -s 0:0:tap:tap1 -s 0:1:linux_eth:eth0 C3725-AD.BIN
+../dynamips-gdb-mod/src/dynamips -Z 6666 -j -P 2600 -t 2621 -s 0:0:tap:tap1 -s 0:1:linux_eth:eth0 C2600-BI.BIN
+
+qume-guest:
+gdb -q
+target remote IP:PORT
+
+Router:
+Router>en
+Router#conf t
+Router(config)#line con 0
+Router(config-line)#logg sync
+Router(config-line)#int fa0/0
+Router(config-if)#ip addr 192.168.9.100 255.255.255.0
+Router(config-if)#no shut
+Router(config-if)#line vty 0 4 
+Router(config-line)#password Cisco1
+Router(config-line)#login
+Router(config-line)#^Z
+Router#wr
