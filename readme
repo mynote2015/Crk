@@ -24,7 +24,7 @@ qemu-guest# ssh -R 22222:localhost:22 <you>@<qemu-host>
 
 qemu虚拟机示例
 qemu中host地址是10.0.2.2,Vm一般是10.0.2.15。
-开启qemu虚拟机后，运行ssh -R 33333:localhost:22 root@10.0.2.2，从host使用ssh 127.0.0.1 -p 33333登陆操作qemu虚拟机。
+开启qemu虚拟机后，运行ssh -R 33333:localhost:22 root@10.0.2.2，从host使用ssh <qemu-vm-hostname>@127.0.0.1 -p 33333登陆操作qemu虚拟机。
 
 5.在Crking中，每个型号对应了一个文件夹，比如2600和3725等。其他IOS镜像可以通过torrent下载。
 
