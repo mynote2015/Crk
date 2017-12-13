@@ -1,4 +1,6 @@
 1.Crk文件夹是从github中clone的，Crking是复制Crk，并且是当前实际工作目录。如果后续需要上传东西到github，可以复制到Crk，再上传。
+github add ssh key 
+git remote add origin git@github.com:XXXX/XXXXX.git
 git clone git@github.com:mynote2015/Crk
 git commit -m ""
 git push origin master
